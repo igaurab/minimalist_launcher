@@ -1,6 +1,7 @@
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:minimalist_launcher/screens/ListApps.dart';
+import 'package:minimalist_launcher/screens/checkToRedirect.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences prefs;
@@ -34,7 +35,7 @@ class _AppDrawerState extends State<AppDrawer> {
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return ListAppsPages();
+                  return CheckToRedirect();
                 }),
               ),
               child: Icon(

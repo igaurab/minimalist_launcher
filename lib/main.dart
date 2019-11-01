@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minimalist_launcher/screens/AppDrawer.dart';
 import 'package:minimalist_launcher/screens/AppSelector.dart';
+import 'package:minimalist_launcher/screens/checkToRedirect.dart';
 import 'screens/HomeScreen.dart';
 import 'screens/ListApps.dart';
 

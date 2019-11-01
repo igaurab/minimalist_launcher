@@ -73,28 +73,40 @@ class _ListAppsPagesContent extends StatelessWidget {
           } else {
             List<Application> apps = data.data;
             apps.sort((a, b) => a.appName.compareTo(b.appName));
-            return ListView.builder(
-                itemBuilder: (context, position) {
-                  Application app = apps[position];
-                  return Column(
-                    children: <Widget>[
-                      ListTile(
-                        leading: app is ApplicationWithIcon
-                            ? CircleAvatar(
-                                backgroundImage: MemoryImage(app.icon),
-                                backgroundColor: Colors.white,
-                              )
-                            : null,
-                        onTap: () => DeviceApps.openApp(app.packageName),
-                        title: Text("${app.appName}"),
+            return GridView.count(
+              padding: EdgeInsets.all(30.0),
+              crossAxisCount: 4,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 30.0,
+              children: List.generate(apps.length, (index) {
+                Application app = apps[index];
+                return Column(
+                  children: <Widget>[
+                    Container(
+                      child: app is ApplicationWithIcon
+                          ? CircleAvatar(
+                              backgroundColor: Colors.white,
+                              child: Image.memory(
+                                app.icon,
+                                height: 50.0,
+                                width: 50.0,
+                              ),
+                            )
+                          : null,
+                    ),
+                    Text(
+                      app.appName,
+                      style: TextStyle(
+                        color: Colors.black,
                       ),
-                      Divider(
-                        height: 1.0,
-                      )
-                    ],
-                  );
-                },
-                itemCount: apps.length);
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                );
+              }),
+            );
           }
         });
   }
