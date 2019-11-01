@@ -1,5 +1,6 @@
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
+import 'package:minimalist_launcher/models/app.dart';
 
 class ListAppsPages extends StatefulWidget {
   @override
@@ -9,6 +10,11 @@ class ListAppsPages extends StatefulWidget {
 class _ListAppsPagesState extends State<ListAppsPages> {
   bool _showSystemApps = true;
   bool _onlyLaunchableApps = true;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +30,6 @@ class _ListAppsPagesState extends State<ListAppsPages> {
               return <PopupMenuItem<String>>[
                 PopupMenuItem<String>(
                     value: 'system_apps', child: Text('Toogle')),
-                // PopupMenuItem<String>(
-                //   value: "launchable_apps",
-                //   child: Text('Toggle launchable apps only'),
-                // )
               ];
             },
             onSelected: (key) {
@@ -36,11 +38,6 @@ class _ListAppsPagesState extends State<ListAppsPages> {
                   _showSystemApps = !_showSystemApps;
                 });
               }
-              // if (key == "launchable_apps") {
-              //   setState(() {
-              //     _onlyLaunchableApps = !_onlyLaunchableApps;
-              //   });
-              // }
             },
           )
         ],
