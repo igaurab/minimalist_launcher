@@ -2,6 +2,7 @@ import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:minimalist_launcher/screens/AppDrawer.dart';
 import 'package:minimalist_launcher/screens/AppSelector.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -44,7 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Stack(
         children: <Widget>[
           GestureDetector(
-            onDoubleTap: () {},
+            onDoubleTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AppDrawer()));
+            },
             child: Container(
               color: Colors.blue[200],
             ),

@@ -1,5 +1,6 @@
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
+import 'package:minimalist_launcher/screens/ListApps.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences prefs;
@@ -28,8 +29,20 @@ class _AppDrawerState extends State<AppDrawer> {
         } else {
           prefs = pref.data;
           List<String> packageNames = prefs.getKeys().toList();
-          return Material(
-            child: FutureBuilder(
+          return Scaffold(
+            floatingActionButton: FloatingActionButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  return ListAppsPages();
+                }),
+              ),
+              child: Icon(
+                Icons.menu,
+                color: Colors.white,
+              ),
+            ),
+            body: FutureBuilder(
               future: DeviceApps.getAppLists(packageNames),
               builder: (context, data) {
                 if (data.hasData == null) {

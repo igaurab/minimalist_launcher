@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:minimalist_launcher/screens/AppDrawer.dart';
+import 'package:minimalist_launcher/screens/HomeScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences prefs;
@@ -55,7 +56,7 @@ class _AppSelectorPageState extends State<AppSelectorPage> {
         leading: IconButton(
           onPressed: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AppDrawer()),
+            MaterialPageRoute(builder: (context) => HomeScreen()),
           ),
           icon: Icon(
             Icons.done_outline,
