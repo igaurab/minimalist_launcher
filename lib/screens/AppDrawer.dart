@@ -26,19 +26,11 @@ class _AppDrawerState extends State<AppDrawer> {
             child: Text("Pref is null"),
           );
         } else {
-          sharedPrefCounter = pref.data.getInt('prefCounter');
-          print(" PREF DATA: ${pref.data.getInt('prefCounter')}");
           prefs = pref.data;
-          List<String> packageNames = [];
-          for (var i = 0; i <= sharedPrefCounter; i++) {
-            packageNames.add(prefs.getString('$i'));
-          }
-          print("Packages name: $packageNames");
+          List<String> packageNames = prefs.getKeys().toList();
           return Material(
             child: FutureBuilder(
-              future: DeviceApps.getAppLists(
-                packageNames
-              ),
+              future: DeviceApps.getAppLists(packageNames),
               builder: (context, data) {
                 if (data.hasData == null) {
                   return Text("No Package Data has ");

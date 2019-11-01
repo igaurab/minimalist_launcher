@@ -74,10 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: <Widget>[
                     GestureDetector(
                       onTap: () {
-                        //TODO: Add intent to phone
                         print("Phone");
-                        //
-                        DeviceApps.openApp("com.android.dialer");
+                        DeviceApps.openApp("com.google.android.dialer");
                       },
                       child: Container(
                         height: 60,

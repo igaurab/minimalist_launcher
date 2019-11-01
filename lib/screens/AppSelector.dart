@@ -5,7 +5,6 @@ import 'package:minimalist_launcher/screens/AppDrawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences prefs;
-int sharedPrefCounter;
 
 class AppSelectorPage extends StatefulWidget {
   @override
@@ -26,15 +25,6 @@ class _AppSelectorPageState extends State<AppSelectorPage> {
 
   _initPreference() async {
     prefs = await SharedPreferences.getInstance();
-    if (!prefs.containsKey('prefCounter')) {
-      prefs.setInt('prefCounter', 0);
-      sharedPrefCounter = prefs.getInt('prefCounter');
-      print('Setting up prefrences....');
-    } else {
-      sharedPrefCounter = prefs.getInt('prefCounter');
-      print(sharedPrefCounter);
-    }
-    print(prefs);
   }
 
   @override
@@ -62,12 +52,15 @@ class _AppSelectorPageState extends State<AppSelectorPage> {
             },
           )
         ],
-        leading: RaisedButton(
+        leading: IconButton(
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => AppDrawer()),
           ),
-          child: Text('Done'),
+          icon: Icon(
+            Icons.done_outline,
+            color: Colors.blueAccent,
+          ),
         ),
       ),
       body: _AppSelectorPageContent(
@@ -107,6 +100,7 @@ class __AppSelectorPageContentState extends State<_AppSelectorPageContent> {
           } else {
             List<Application> apps = data.data;
             apps.sort((a, b) => a.appName.compareTo(b.appName));
+            //TODO: Add a blue border if the app is already in the prefrences
             return ListView.builder(
                 itemBuilder: (context, position) {
                   Application app = apps[position];
@@ -121,13 +115,15 @@ class __AppSelectorPageContentState extends State<_AppSelectorPageContent> {
                             : null,
                         onTap: () {
                           setState(() {
-                            if (sharedPrefCounter <= 6) {
+                            print("L: ${prefs.getKeys().length}");
+                            if (prefs.containsKey(app.packageName)) {
+                              prefs.remove('${app.packageName}');
                               print(
-                                  "Added <$sharedPrefCounter ,${app.packageName}> to prefrences");
-                              prefs.setString(
-                                  '$sharedPrefCounter', app.packageName);
-                              prefs.setInt('prefCounter', sharedPrefCounter);
-                              sharedPrefCounter++;
+                                  "Removed ${app.packageName} to pref, total: ${prefs.getKeys().length}");
+                            } else if (prefs.getKeys().length <= 5) {
+                              prefs.setString(app.packageName, app.appName);
+                              print(
+                                  "Added ${app.packageName} to pref, total: ${prefs.getKeys().length}");
                             } else {
                               Fluttertoast.showToast(
                                   msg: "You can add only 6 apps",
@@ -141,6 +137,10 @@ class __AppSelectorPageContentState extends State<_AppSelectorPageContent> {
                           });
                         },
                         title: Text("${app.appName}"),
+                        trailing: prefs.containsKey(app.packageName)
+                            ? Icon(Icons.done_all,
+                                color: Colors.blueAccent, size: 20.0)
+                            : null,
                       ),
                       Divider(
                         height: 1.0,
