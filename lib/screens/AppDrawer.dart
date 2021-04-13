@@ -1,4 +1,5 @@
 import 'package:device_apps/device_apps.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:minimalist_launcher/screens/ListApps.dart';
 import 'package:minimalist_launcher/screens/checkToRedirect.dart';
@@ -44,12 +45,21 @@ class _AppDrawerState extends State<AppDrawer> {
               ),
             ),
             body: FutureBuilder(
-              future: DeviceApps.getAppLists(packageNames),
+              future: DeviceApps.getInstalledApplications(
+                  onlyAppsWithLaunchIntent: true, includeSystemApps: true),
               builder: (context, data) {
                 if (data.hasData == null) {
                   return Text("No Package Data has ");
                 }
-                List<Application> apps = data.data;
+                List<Application> allApps = data.data;
+                List<Application> apps = [];
+
+                allApps.forEach((app) {
+                  if (packageNames.contains(app.packageName)) {
+                    apps.add(app);
+                  }
+                });
+
                 apps.sort((a, b) => a.appName.compareTo(b.appName));
                 return ListView.builder(
                     itemBuilder: (context, position) {
